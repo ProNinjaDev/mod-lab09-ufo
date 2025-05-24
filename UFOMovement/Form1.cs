@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Windows.Forms;
 
 namespace UFOMovement;
@@ -17,8 +18,11 @@ public partial class Form1 : Form
     private float k_slope;
     private float b_intercept;
 
+    private double targetAngle;
+    private int nTermsForTrig = 5;
+
     private float movementStep = 2.0f;
-    private int movementMethod = 0;
+    private int movementMethod = 1;
 
     private System.Windows.Forms.Timer animationTimer = new System.Windows.Forms.Timer();
 
@@ -43,6 +47,11 @@ public partial class Form1 : Form
         if (movementMethod == 0)
         {
             Line(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
+        }
+
+        else if (movementMethod == 1)
+        {
+            targetAngle = Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
         }
 
         animationTimer.Start();
@@ -71,6 +80,10 @@ public partial class Form1 : Form
         if (movementMethod == 0)
         {
             return MoveLine();
+        }
+        else if (movementMethod == 1)
+        {
+            return MoveByAngle();
         }
         return false;
     }
@@ -104,6 +117,26 @@ public partial class Form1 : Form
             currentY = endPoint.Y;
             return true;
         }
+        return false;
+    }
+
+    private bool MoveByAngle()
+    {
+        double deltaX = movementStep * Cos(targetAngle, nTermsForTrig);
+        double deltaY = movementStep * Sin(targetAngle, nTermsForTrig);
+
+        currentX += (float)deltaX;
+        currentY += (float)deltaY;
+
+        double distanceToTarget = Math.Sqrt(Math.Pow(endPoint.X - currentX, 2) + Math.Pow(endPoint.Y - currentY, 2));
+
+        if (distanceToTarget < movementStep / 2)
+        {
+            currentX = endPoint.X;
+            currentY = endPoint.Y;
+            return true;
+        }
+
         return false;
     }
 
@@ -154,6 +187,18 @@ public partial class Form1 : Form
             result += termSign * Math.Pow(angle, varTerm) / Factorial(varTerm);
         }
 
+        return result;
+    }
+
+    private static double Atn(double x, int nTerms)
+    {
+        double result = 0;
+        for (int i = 0; i < nTerms; i++)
+        {
+            double termSign = (i % 2 == 0) ? 1.0 : -1.0;
+            int varTerm = 2 * i + 1;
+            result += termSign * Math.Pow(x, varTerm) / varTerm;
+        }
         return result;
     }
 }
