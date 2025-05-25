@@ -14,7 +14,7 @@ public partial class Form1 : Form
     private int objectRadius = 5;
 
     private PointF startPoint = new PointF(50, 50);
-    private PointF endPoint = new PointF(1500, 800);
+    private PointF endPoint = new PointF(700, 1950);
     private float targetZoneRadius = 5.0f;
     private bool useScaling = true;
 
@@ -24,7 +24,7 @@ public partial class Form1 : Form
     private double targetAngle;
     private int nTermsForTrig = 5;
 
-    private float movementStep = 2.0f;
+    private float movementStep = 1.0f;
     private int movementMethod = 1;
 
     private System.Windows.Forms.Timer animationTimer = new System.Windows.Forms.Timer();
@@ -74,7 +74,7 @@ public partial class Form1 : Form
         PointF expStartPoint = this.startPoint;
         PointF expEndPoint = this.endPoint;
         float expMovementStep = this.movementStep;
-        List<float> radiiTest = new List<float> { 2.0f, 3.0f, 5.0f, 8.0f, 10.0f, 15.0f, 20.0f, 25.0f, 30.0f };
+        List<float> radiiTest = new List<float> { 0.1f, 0.2f, 0.5f, 1.0f, 2.0f, 4.0f, 8.0f, 12.0f, 16.0f };
         int minNTermsTest = 1;
         int maxNTermsTest = 20;
 
