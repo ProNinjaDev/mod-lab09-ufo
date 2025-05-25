@@ -61,15 +61,12 @@ public partial class Form1 : Form
         if (movementMethod == 1) {
              targetAngle = Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
         }
-
-        // InitializeMovementParameters();
     }
 
     private async void RunExperimentButton_Click(object? sender, EventArgs e)
     {
         runExperimentButton.Enabled = false;
         statusLabel.Text = "Experiment processing";
-        // Application.DoEvents();
 
         PointF expStartPoint = this.startPoint;
         PointF expEndPoint = this.endPoint;
